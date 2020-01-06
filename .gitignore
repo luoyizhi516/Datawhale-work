@@ -102,13 +102,12 @@ class Solution(object):
     可以推出，对于位于坐标 (r, c) 上的元素，只需要检查 r == 0 OR c == 0 OR matrix[r-1][c-1] == matrix[r][c] 就可以了。
 
     """
-
-    def isToeplitzMatrix(self, matrix):
-        # all()表示所有都为true才返回true
-        # python里面可以在列表推导式里面使用双层for循环，但不建议超过两层
-        return all(r == 0 or c == 0 or matrix[r - 1][c - 1] == val
-                   for r, row in enumerate(matrix)
-                   for c, val in enumerate(row))
+   def isToeplitzMatrix(self, matrix):
+        for i in range(len(matrix)-1):
+            #取元素
+            if not matrix[i][:-1] == matrix[i+1][1:]:
+                return False
+        return True
 
 
 if __name__ == '__main__':
