@@ -1,129 +1,125 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# Task01：数组（1天）
+## 1. 数组的定义
 
-# C extensions
-*.so
+数组是具有一定顺序关系的若干对象组成的集合，组成数组的对象称为数组元素。
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+例如：
+- 向量对应一维数组
+- 矩阵对应二维数组
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+数组名表示群体的共性，即具有同一种数据类型；下标表示个体的个性，即各自占有独立的单元。
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+## 2. 数组的存储
 
-# Translations
-*.mo
-*.pot
+**2.1 n维数组的定义**
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+下标由n个数组成的数组称为n维数组。
 
-# Flask stuff:
-instance/
-.webassets-cache
+例如：
+- `int[] a = new int[10]; //一维数组（线）`
+- `int[ , ] a = new int[2,3];//二维数组 （面）`
+- `int[ , , ] a = new int[2,3,4];//三维数组 （体）；类比：书（体）【2.页码 3.行 4.列】` 
 
-# Scrapy stuff:
-.scrapy
+**2.2 数组存储的特点**
+- 数组元素在内存中按顺序连续存储。
+- 数组的存储分配按照行（C、C++、C#等）或列（Forturn等）进行。
+- 数组名表示该数组的首地址，是常量。
 
-# Sphinx documentation
-docs/_build/
+**2.3 常用数组的存储**
 
-# PyBuilder
-target/
+<u>一维数组`a[n]`</u>
 
-# Jupyter Notebook
-.ipynb_checkpoints
+各元素按下角标依次存放。
 
-# IPython
-profile_default/
-ipython_config.py
+例：`int[] a = new int[5];`
 
-# pyenv
-.python-version
+![一维数组存储](https://img-blog.csdnimg.cn/20191218195949938.png)
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
+<u>二维数组`a[m,n]`</u>
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
+例：`int[ , ] a = new int[2,3];`
 
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
+![二维数组存储](https://img-blog.csdnimg.cn/20191218200106993.png)
 
-# SageMath parsed files
-*.sage.py
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+<u>三维数组`a[m,n,l]`</u>
 
-# Spyder project settings
-.spyderproject
-.spyproject
+第一维下标变化最慢，第三维（最后一维）下标变化最快。
 
-# Rope project settings
-.ropeproject
+例：`int[ , , ] a = new int[2,3,4];`
 
-# mkdocs documentation
-/site
+![三维数组的存储](https://img-blog.csdnimg.cn/20191218200209131.png)
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+## 3. 静态数组与动态数组
 
-# Pyre type checker
-.pyre/
+**3.1 静态数组**
+
+在程序编译时分配空间的数组。
+
+例：
+`int[] a = new int[10];//静态数组（声明之后数组长度不可改变）`
+
+**3.2 动态数组**
+
+在程序运行时分配空间的数组（声明之后数组长度可根据问题而调整）。
+
+![动态数组类图](https://img-blog.csdnimg.cn/2019121820102094.png)
+
+
+以下代码为`python`版本：
+
+**1. 利用动态数组解决数据存放问题。**
+```
+class Solution(object):
+    """
+    "根据约束选择存放的元素"
+    """
+    def DynamicArray(self, n):
+        result=[]        
+        for i in range(2,n-1):
+            if i%5==0 or i%7==0:
+                result.append(i)
+        return result
+
+
+if __name__ == '__main__':
+    n=100
+    solution = Solution()
+    output = solution.DynamicArray(n)
+    print(output)
+```
+**2. 托普利茨矩阵问题**
+
+以下为`python`版本
+
+```python
+class Solution(object):
+    """
+    所有对角线上的元素都满足 a_1 = a_2, a_2 = a_3, a_{k-1} = a_ka
+    对于对角线上的元素来说，如果当前元素不是第一个出现的元素，
+    那么它前面的元素一定在当前元素的左上角。
+    可以推出，对于位于坐标 (r, c) 上的元素，只需要检查 r == 0 OR c == 0 OR matrix[r-1][c-1] == matrix[r][c] 就可以了。
+
+    """
+
+    def isToeplitzMatrix(self, matrix):
+        # all()表示所有都为true才返回true
+        # python里面可以在列表推导式里面使用双层for循环，但不建议超过两层
+        return all(r == 0 or c == 0 or matrix[r - 1][c - 1] == val
+                   for r, row in enumerate(matrix)
+                   for c, val in enumerate(row))
+
+
+if __name__ == '__main__':
+    matrix = [
+        [1, 2, 3, 4],
+        [5, 1, 2, 3],
+        [9, 5, 1, 2]
+    ]
+    solution = Solution()
+    output = solution.isToeplitzMatrix(matrix)
+    print(output)
+```
+**3. 三数之和**
+给定一个Int数组(N)，判断数组中是否存在三个元素x,y,z,使得三个元素之和为0，找出符合要求的所有元素
